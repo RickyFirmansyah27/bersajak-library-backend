@@ -1,0 +1,112 @@
+[
+    {
+        "question": "What is the capital of France?",
+        "options": [
+            {
+                "option": "A",
+                "text": "New York"
+            },
+            {
+                "option": "B",
+                "text": "London"
+            },
+            {
+                "option": "C",
+                "text": "Paris"
+            },
+            {
+                "option": "D",
+                "text": "Dublin"
+            }
+        ],
+        "answer": "C"
+    },
+    {
+        "question": "What is the capital of Spain?",
+        "options": [
+            {
+                "option": "A",
+                "text": "Madrid"
+            },
+            {
+                "option": "B",
+                "text": "Barcelona"
+            },
+            {
+                "option": "C",
+                "text": "Seville"
+            },
+            {
+                "option": "D",
+                "text": "Valencia"
+            }
+        ],
+        "answer": "A"
+    },
+    {
+        "question": "What is the capital of Italy?",
+        "options": [
+            {
+                "option": "A",
+                "text": "Rome"
+            },
+            {
+                "option": "B",
+                "text": "Milan"
+            },
+            {
+                "option": "C",
+                "text": "Venice"
+            },
+            {
+                "option": "D",
+                "text": "Florence"
+            }
+        ],
+        "answer": "A"
+    },
+    {
+        "question": "What is the capital of Germany?",
+        "options": [
+            {
+                "option": "A",
+                "text": "Berlin"
+            },
+            {
+                "option": "B",
+                "text": "Munich"
+            },
+            {
+                "option": "C",
+                "text": "Hamburg"
+            },
+            {
+                "option": "D",
+                "text": "Frankfurt"
+            }
+        ],
+        "answer": "A"
+    },
+    {
+        "question": "What is the capital of Portugal?",
+        "options": [
+            {
+                "option": "A",
+                "text": "Lisbon"
+            },
+            {
+                "option": "B",
+                "text": "Porto"
+            },
+            {
+                "option": "C",
+                "text": "Faro"
+            },
+            {
+                "option": "D",
+                "text": "Coimbra"
+            }
+        ],
+        "answer": "A"
+    }
+]

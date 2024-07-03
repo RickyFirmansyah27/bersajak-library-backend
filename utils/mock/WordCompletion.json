@@ -1,0 +1,32 @@
+[
+    {
+        "question": "What is the capital of France?",
+        "clue": "P____",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Paris_-_Eiffelturm_und_Marsfeld2.jpg/800px-Paris_-_Eiffelturm_und_Marsfeld2.jpg",
+        "answer": "paris"
+    },
+    {
+        "question": "What is the capital of Germany?",
+        "clue": "B____n",
+        "imageUrl": "https://placehold.co/600x400",
+        "answer": "berlin"
+    },
+    {
+        "question": "What is the capital of Italy?",
+        "clue": "R___",
+        "imageUrl": "https://placehold.co/600x400",
+        "answer": "rome"
+    },
+    {
+        "question": "What is the capital of Spain?",
+        "clue": "M_____",
+        "imageUrl": "https://placehold.co/600x400",
+        "answer": "madrid"
+    },
+    {
+        "question": "What is the capital of the United Kingdom?",
+        "clue": "L_____",
+        "imageUrl": "https://placehold.co/600x400",
+        "answer": "london"
+    }
+]
