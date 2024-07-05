@@ -1,6 +1,5 @@
 const { Logger } = require("../utils/logger");
 const QuizService = require('../service/QuizService');
-const { isEmpty } = require("lodash");
 
 const Namespace = 'QuizController';
 const GetQuizQuestion = (req, res) => {

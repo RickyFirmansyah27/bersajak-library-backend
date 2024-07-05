@@ -76,12 +76,8 @@ const ResponseMiddleware = (req, res, next) => {
         });
     };
 
-    res.sendPdf = (pdf, filename) => {
+    res.sendPdf = (pdf) => {
         res.setHeader('Content-Type', 'application/pdf');
-        res.setHeader(
-            'Content-Disposition',
-            `attachment; filename=${filename}`
-        );
         res.send(pdf);
     };
 
