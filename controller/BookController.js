@@ -37,9 +37,9 @@ const GetEbookChunk = async (req, res) => {
 
         const pdfBytes = await newPdfDoc.save();
 
-        res.setHeader('Content-Type', 'application/pdf');
         // eslint-disable-next-line no-undef
-        res.send(Buffer.from(pdfBytes));
+        const pdfBase64 = Buffer.from(pdfBytes).toString('base64');
+        res.send(pdfBase64);
     } catch (error) {
         if (error.code === 'ENOENT') {
             return res.notFound('Ebook not found');

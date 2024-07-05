@@ -1,4 +1,4 @@
-const { Logger } = require("../utils/logger");
+const { Logger } = require('../utils/logger');
 const QuizService = require('../service/QuizService');
 
 const Namespace = 'QuizController';
@@ -8,12 +8,17 @@ const GetQuizQuestion = (req, res) => {
         const { id } = req.params;
         const QuizQuestion = QuizService.GetQuizQuestion(number - 1, id);
 
-        if (!QuizQuestion) return res.notFound('Quiz question not found');
-        
-        return res.successWithData(QuizQuestion);
+        if (!QuizQuestion?.data) return res.notFound('Quiz question not found');
+
+        return res.successWithPagination(QuizQuestion.data, {
+            currentPage: number,
+            totalRows: QuizQuestion.totalCount,
+        });
     } catch (error) {
-        Logger.error(`[${Namespace}::GetQuizQuestion] error ${error}, stack ${error.stack}`);
-        return res.internalServerError();       
+        Logger.error(
+            `[${Namespace}::GetQuizQuestion] error ${error}, stack ${error.stack}`
+        );
+        return res.internalServerError();
     }
 };
 
@@ -21,14 +26,20 @@ const ValidateQuizAnswer = (req, res) => {
     try {
         const { id } = req.params;
         const { number, answer } = req.body;
-        const isCorrect = QuizService.ValidateQuizAnswer(number - 1, id, answer);
+        const isCorrect = QuizService.ValidateQuizAnswer(
+            number - 1,
+            id,
+            answer
+        );
         if (!isCorrect) {
             return res.badRequest('Incorrect answer');
         }
-        return res.success('Answer Correct')
+        return res.success('Answer Correct');
     } catch (error) {
-        Logger.error(`[${Namespace}::GetQuizQuestion] error ${error}, stack ${error.stack}`);
-        return res.internalServerError();       
+        Logger.error(
+            `[${Namespace}::GetQuizQuestion] error ${error}, stack ${error.stack}`
+        );
+        return res.internalServerError();
     }
 };
 
@@ -36,14 +47,22 @@ const GetWordCompletionQuestion = (req, res) => {
     try {
         const { number } = req.query;
         const { id } = req.params;
-        const QuizQuestion = QuizService.GetWordCompletionQuestion(number - 1, id);
+        const QuizQuestion = QuizService.GetWordCompletionQuestion(
+            number - 1,
+            id
+        );
 
         if (!QuizQuestion) return res.notFound('Quiz question not found');
-        
-        return res.successWithData(QuizQuestion);
+
+        return res.successWithPagination(QuizQuestion.data, {
+            currentPage: number,
+            totalRows: QuizQuestion.totalCount,
+        });
     } catch (error) {
-        Logger.error(`[${Namespace}::GetQuizQuestion] error ${error}, stack ${error.stack}`);
-        return res.internalServerError();       
+        Logger.error(
+            `[${Namespace}::GetQuizQuestion] error ${error}, stack ${error.stack}`
+        );
+        return res.internalServerError();
     }
 };
 
@@ -51,20 +70,26 @@ const ValidateWordCompletionAnswer = (req, res) => {
     try {
         const { id } = req.params;
         const { number, answer } = req.body;
-        const isCorrect = QuizService.ValidateWordCompletionAnswer(number - 1, id, answer);
+        const isCorrect = QuizService.ValidateWordCompletionAnswer(
+            number - 1,
+            id,
+            answer
+        );
         if (!isCorrect) {
             return res.badRequest('Incorrect answer');
         }
-        return res.success('Answer Correct')
+        return res.success('Answer Correct');
     } catch (error) {
-        Logger.error(`[${Namespace}::GetQuizQuestion] error ${error}, stack ${error.stack}`);
-        return res.internalServerError();       
+        Logger.error(
+            `[${Namespace}::GetQuizQuestion] error ${error}, stack ${error.stack}`
+        );
+        return res.internalServerError();
     }
-}
+};
 
 module.exports = {
     GetQuizQuestion,
     GetWordCompletionQuestion,
     ValidateQuizAnswer,
-    ValidateWordCompletionAnswer
-}
+    ValidateWordCompletionAnswer,
+};

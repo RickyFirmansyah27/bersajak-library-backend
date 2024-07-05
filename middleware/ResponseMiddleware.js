@@ -15,9 +15,19 @@ const ResponseMiddleware = (req, res, next) => {
             status: true,
             request_id: req.request_id,
             message: message || 'Success',
-            data: data,
+            data: data
         });
     };
+
+    res.successWithPagination = (data, pagination, message = null) => {
+        return res.status(200).json({
+            status: true,
+            request_id: req.request_id,
+            message: message || 'Success',
+            data: data,
+            pagination: pagination,
+        });
+    }
 
     res.created = (message = null) => {
         return res.status(201).json({

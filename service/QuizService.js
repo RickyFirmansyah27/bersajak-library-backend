@@ -5,14 +5,19 @@ const MockWordCompletionQuestion = require('../utils/mock/WordCompletion.json');
 
 const GetQuizQuestion = (number, id) => {
     Logger.info(`[QuizService::GetQuizQuestion] number ${number}, id ${id}`);
-    if (isEmpty(MockQuizQuestion)) {
+
+    const data = MockQuizQuestion[number];
+    if (isEmpty(data)) {
         return false;
     }
 
-    const data = MockQuizQuestion[number];
+    const totalQuestion = MockQuizQuestion.length;
     delete data.answer;
 
-    return data;
+    return {
+        data,
+        totalCount: totalQuestion,
+    };
 };
 
 const ValidateQuizAnswer = (number, id, answer) => {
@@ -34,14 +39,18 @@ const GetWordCompletionQuestion = (number, id) => {
     );
 
     const data = MockWordCompletionQuestion[number];
-
     if (isEmpty(data)) {
         return false;
     }
 
+    const totalCount = MockWordCompletionQuestion.length;
+
     delete data.answer;
 
-    return data;
+    return {
+        data,
+        totalCount,
+    };
 };
 
 const ValidateWordCompletionAnswer = (number, id, answer) => {
@@ -65,5 +74,5 @@ module.exports = {
     GetQuizQuestion,
     ValidateQuizAnswer,
     GetWordCompletionQuestion,
-    ValidateWordCompletionAnswer
+    ValidateWordCompletionAnswer,
 };
