@@ -7,10 +7,10 @@ const Namespace = 'BookController';
 const GetEbookChunk = async (req, res) => {
     const { id } = req.params;
     const { page } = req.query;
-
+    
     const startPage = (parseInt(page) - 1) * 2 + 1;
     const endPage = startPage + 1;
-
+    
     // eslint-disable-next-line no-undef
     const filePath = path.join(__dirname, '..', 'assets', 'books', `${id}.pdf`);
     Logger.debug(`[${Namespace}::GetEbookChunk] filePath ${filePath}`);
@@ -36,10 +36,14 @@ const GetEbookChunk = async (req, res) => {
         }
 
         const pdfBytes = await newPdfDoc.save();
+        const roundedTotalPages = Math.ceil(totalPages / 2);
 
         // eslint-disable-next-line no-undef
         const pdfBase64 = Buffer.from(pdfBytes).toString('base64');
-        res.send(pdfBase64);
+        res.successWithPagination(pdfBase64, {
+            totalPages: roundedTotalPages,
+            currentPage: parseInt(page),
+        });
     } catch (error) {
         if (error.code === 'ENOENT') {
             return res.notFound('Ebook not found');

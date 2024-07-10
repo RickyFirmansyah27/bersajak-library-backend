@@ -2,6 +2,7 @@ const route = require('express').Router();
 const { Logger } = require('../utils/logger');
 const QuizRoutes = require('./QuizRoutes');
 const BookRoutes = require('./BookRoutes');
+const AudioRoutes = require('./AudioRoutes');
 
 route.get('/', (req, res) => {
     res.success('Welcome to the Bersajak API');
@@ -9,6 +10,7 @@ route.get('/', (req, res) => {
 
 route.use('/quiz', QuizRoutes);
 route.use('/book', BookRoutes);
+route.use('/audio', AudioRoutes);
 
 route.use((_, res, __) => {
     res.notFound();
