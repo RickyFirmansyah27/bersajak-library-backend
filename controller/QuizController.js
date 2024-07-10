@@ -36,46 +36,32 @@ const ValidateQuizAnswer = async (req, res) => {
     }
 };
 
-const GetWordCompletionQuestion = (req, res) => {
+const GetWordCompletionQuestion = async (req, res) => {
     try {
         const { number } = req.query;
         const { id } = req.params;
-        const QuizQuestion = QuizService.GetWordCompletionQuestion(
-            number - 1,
-            id
-        );
+        const QuizQuestion = await QuizService.GetWordCompletionQuestion(number, id);
 
         if (!QuizQuestion) return res.notFound('Quiz question not found');
 
-        return res.successWithPagination(QuizQuestion.data, {
-            currentPage: number,
-            totalRows: QuizQuestion.totalCount,
-        });
+        return res.successWithData(QuizQuestion.data);
     } catch (error) {
-        Logger.error(
-            `[${Namespace}::GetQuizQuestion] error ${error}, stack ${error.stack}`
-        );
+        Logger.error(`[${Namespace}::GetQuizQuestion] error ${error}, stack ${error.stack}`);
         return res.internalServerError();
     }
 };
 
-const ValidateWordCompletionAnswer = (req, res) => {
+const ValidateWordCompletionAnswer = async (req, res) => {
     try {
         const { id } = req.params;
         const { number, answer } = req.body;
-        const isCorrect = QuizService.ValidateWordCompletionAnswer(
-            number - 1,
-            id,
-            answer
-        );
+        const isCorrect = await QuizService.ValidateWordCompletionAnswer(number, id, answer);
         if (!isCorrect) {
             return res.badRequest('Incorrect answer');
         }
         return res.success('Answer Correct');
     } catch (error) {
-        Logger.error(
-            `[${Namespace}::GetQuizQuestion] error ${error}, stack ${error.stack}`
-        );
+        Logger.error(`[${Namespace}::GetQuizQuestion] error ${error}, stack ${error.stack}`);
         return res.internalServerError();
     }
 };

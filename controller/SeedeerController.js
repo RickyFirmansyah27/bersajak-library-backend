@@ -1,4 +1,5 @@
 const { HutanLaranganMultipleChoice, WabahPenyakitMultipleChoice, GaweEcoenzimMultipleChoice, SuaraGemuruhItuMultipleChoice } = require('../data/QuestionBank');
+const { SuaraGemuruhItuWordCompletion, HutanLaranganWordCompletion, GaweEkoenzimWordCompletion, WabahPenyakitWordCompletion } = require('../data/WordCompletionBank');
 const db = require('../prisma/client');
 const BookSeeder = async () => {
     const books = [
@@ -65,6 +66,29 @@ const BookSeeder = async () => {
     });
 };
 
+const WordCompletionSeeder = async () => {
+    const book = await db.books.findFirst({
+        where: {
+            title: 'Wabah Penyakit'
+        },
+        select: {
+            id: true
+        }
+    });
+
+    WabahPenyakitWordCompletion.forEach(async (question) => {
+        await db.wordCompletion.create({
+            data: {
+                book_id: book.id,
+                answer: question.answer,
+                question: question.question,
+                number: question.number,
+                created_at: new Date(),
+                updated_at: new Date(),
+            }
+        })
+    });
+}
 const QuizSeeder = async () => {
     // const book = await db.books.findFirst({
     //     where: {
@@ -89,4 +113,4 @@ const QuizSeeder = async () => {
     // });
 }
 
-module.exports = { BookSeeder, QuizSeeder };
+module.exports = { BookSeeder, QuizSeeder, WordCompletionSeeder };

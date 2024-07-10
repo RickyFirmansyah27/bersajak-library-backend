@@ -11,19 +11,20 @@ datasource db {
 }
 
 model Books {
-  id            Int      @id @default(autoincrement())
-  title         String
-  author        String
-  description   String
-  thumbnail_url String
-  audio_url     String
-  ebook_url     String
-  genres        String
-  total_reads   Int      @default(0)
-  total_likes   Int      @default(0)
-  created_at    DateTime @default(now())
-  updated_at    DateTime @updatedAt
-  Quiz          Quiz[]
+  id             Int              @id @default(autoincrement())
+  title          String
+  author         String
+  description    String
+  thumbnail_url  String
+  audio_url      String
+  ebook_url      String
+  genres         String
+  total_reads    Int              @default(0)
+  total_likes    Int              @default(0)
+  created_at     DateTime         @default(now())
+  updated_at     DateTime         @updatedAt
+  Quiz           Quiz[]
+  WordCompletion WordCompletion[]
 
   @@map("books")
 }
@@ -40,4 +41,17 @@ model Quiz {
   updated_at  DateTime @updatedAt
 
   @@map("quiz")
+}
+
+model WordCompletion {
+  id         Int      @id @default(autoincrement())
+  book_id    Int
+  book       Books    @relation(fields: [book_id], references: [id])
+  number     Int      @default(0)
+  question   String
+  answer     String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("word_completion")
 }

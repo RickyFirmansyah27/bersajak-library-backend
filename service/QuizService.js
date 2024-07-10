@@ -1,7 +1,6 @@
 const { isEmpty } = require('lodash');
 const { Logger } = require('../utils/logger');
 const db = require('../prisma/client');
-const MockWordCompletionQuestion = require('../utils/mock/WordCompletion.json');
 
 const GetQuizQuestion = async (number, id) => {
     const question = await db.quiz.findFirst({
@@ -52,40 +51,43 @@ const ValidateQuizAnswer = async (number, id, answer) => {
     return answer === trueAnswer;
 };
 
-const GetWordCompletionQuestion = (number, id) => {
-    Logger.info(
-        `[QuizService::GetWordCompletionQuestion] number ${number}, id ${id}`
-    );
+const GetWordCompletionQuestion = async (number, id) => {
+    Logger.info(`[QuizService::GetWordCompletionQuestion] number ${number}, id ${id}`);
 
-    const data = MockWordCompletionQuestion[number];
+    const data = await db.wordCompletion.findFirst({
+        where: {
+            book_id: parseInt(id),
+            number: parseInt(number),
+        },
+        select: {
+            number: true,
+            question: true,
+        },
+    });
+
     if (isEmpty(data)) {
         return false;
     }
 
-    const totalCount = MockWordCompletionQuestion.length;
-
-    delete data.answer;
-
-    return {
-        data,
-        totalCount,
-    };
+    return { data };
 };
 
-const ValidateWordCompletionAnswer = (number, id, answer) => {
-    Logger.info(
-        `[QuizService::ValidateWordCompletionAnswer] number ${number}, id ${id}`
-    );
-    const question = MockWordCompletionQuestion[number];
-    Logger.info(
-        `[QuizService::ValidateWordCompletionAnswer] question ${JSON.stringify(
-            question
-        )}`
-    );
+const ValidateWordCompletionAnswer = async (number, id, answer) => {
+    Logger.info(`[QuizService::ValidateWordCompletionAnswer] number ${number}, id ${id}`);
+    const question = await db.wordCompletion.findFirst({
+        where: {
+            book_id: parseInt(id),
+            number: parseInt(number),
+        },
+        select: {
+            answer: true,
+        },
+    });
+    Logger.info(`[QuizService::ValidateWordCompletionAnswer] question ${JSON.stringify(question)}`);
     if (isEmpty(question)) {
         return false;
     }
-    const trueAnswer = question.answer;
+    const trueAnswer = question.answer.toLowerCase();
     return answer.toLowerCase() === trueAnswer;
 };
 
