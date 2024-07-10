@@ -32,6 +32,7 @@ model Quiz {
   id          Int      @id @default(autoincrement())
   book_id     Int
   book        Books    @relation(fields: [book_id], references: [id])
+  number      Int      @default(0)
   question    String
   option_list String
   answer      String

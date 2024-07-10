@@ -2,18 +2,15 @@ const { Logger } = require('../utils/logger');
 const QuizService = require('../service/QuizService');
 
 const Namespace = 'QuizController';
-const GetQuizQuestion = (req, res) => {
+const GetQuizQuestion = async (req, res) => {
     try {
         const { number } = req.query;
         const { id } = req.params;
-        const QuizQuestion = QuizService.GetQuizQuestion(number - 1, id);
+        const QuizQuestion = await QuizService.GetQuizQuestion(number, id);
 
         if (!QuizQuestion?.data) return res.notFound('Quiz question not found');
 
-        return res.successWithPagination(QuizQuestion.data, {
-            currentPage: number,
-            totalRows: QuizQuestion.totalCount,
-        });
+        return res.successWithData(QuizQuestion.data);
     } catch (error) {
         Logger.error(
             `[${Namespace}::GetQuizQuestion] error ${error}, stack ${error.stack}`
@@ -22,15 +19,11 @@ const GetQuizQuestion = (req, res) => {
     }
 };
 
-const ValidateQuizAnswer = (req, res) => {
+const ValidateQuizAnswer = async (req, res) => {
     try {
         const { id } = req.params;
         const { number, answer } = req.body;
-        const isCorrect = QuizService.ValidateQuizAnswer(
-            number - 1,
-            id,
-            answer
-        );
+        const isCorrect = await QuizService.ValidateQuizAnswer(number, id, answer.toLowerCase());
         if (!isCorrect) {
             return res.badRequest('Incorrect answer');
         }

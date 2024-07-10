@@ -1,3 +1,4 @@
+const { HutanLaranganMultipleChoice, WabahPenyakitMultipleChoice, GaweEcoenzimMultipleChoice, SuaraGemuruhItuMultipleChoice } = require('../data/QuestionBank');
 const db = require('../prisma/client');
 const BookSeeder = async () => {
     const books = [
@@ -64,4 +65,28 @@ const BookSeeder = async () => {
     });
 };
 
-module.exports = { BookSeeder };
+const QuizSeeder = async () => {
+    // const book = await db.books.findFirst({
+    //     where: {
+    //         title: 'Suara Gemuruh Itu'
+    //     },
+    //     select: {
+    //         id: true
+    //     }
+    // });
+    // SuaraGemuruhItuMultipleChoice.forEach(async (question) => {
+    //     const stringifyOptions = JSON.stringify(question.options);
+    //     await db.quiz.create({
+    //         data: {
+    //             book_id: book.id,
+    //             question: question.question,
+    //             option_list: stringifyOptions,
+    //             answer: question.answer,
+    //             created_at: new Date(),
+    //             updated_at: new Date(),
+    //         },
+    //     });
+    // });
+}
+
+module.exports = { BookSeeder, QuizSeeder };
