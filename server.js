@@ -4,6 +4,7 @@ const path = require('path');
 require('dotenv').config();
 
 const { Logger } = require('./utils/logger');
+const db = require('./prisma/client');
 const HttpLogger = require('./middleware/HttpLoggerMiddleware');
 const ResponseMiddleware = require('./middleware/ResponseMiddleware');
 const routes = require('./routes');
@@ -23,8 +24,9 @@ app.use(express.json());
 app.use(ResponseMiddleware);
 app.use(HttpLogger);
 app.use(
+    '/assets',
     // eslint-disable-next-line no-undef
-    express.static(path.join(__dirname, 'public'), {
+    express.static(path.join(__dirname, 'assets'), {
         setHeaders: (res, path) => {
             if (path.endsWith('.mjs')) {
                 res.setHeader('Content-Type', 'application/javascript');
@@ -33,7 +35,8 @@ app.use(
     })
 );
 app.use('/api', routes);
-app.listen(port, () => {
+app.listen(port, async () => {
+    await db.$connect();
     Logger.info('Server is running on port ' + port);
 });
 

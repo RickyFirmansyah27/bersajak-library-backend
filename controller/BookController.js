@@ -1,18 +1,83 @@
 const path = require('path');
+const db = require('../prisma/client');
 const { Logger } = require('../utils/logger');
 const fs = require('fs').promises;
 const { PDFDocument } = require('pdf-lib');
+const { toInteger } = require('lodash');
 
 const Namespace = 'BookController';
+const GetEbookList = async (req, res) => {
+    try {
+        const ebooks = await db.books.findMany({});
+        const transformedData = ebooks.map((ebook) => {
+            delete ebook.created_at;
+            delete ebook.updated_at;
+
+            return {
+                ...ebook,
+                thumbnail_url: `${req.protocol}://${req.get('host')}${
+                    ebook.thumbnail_url
+                }`,
+                ebook_url: `${req.protocol}://${req.get('host')}${
+                    ebook.ebook_url
+                }`,
+                audio_url: `${req.protocol}://${req.get('host')}${
+                    ebook.audio_url
+                }`,
+            };
+        });
+
+        return res.successWithData(transformedData);
+    } catch (error) {
+        Logger.error(
+            `[${Namespace}::GetEbookList] error ${error}, stack ${error.stack}`
+        );
+        return res.internalServerError();
+    }
+};
+
+const GetEbookDetail = async (req, res) => {
+    const { id } = req.params;
+
+    const ebook = await db.books.findUnique({
+        where: {
+            id: toInteger(id),
+        },
+    });
+
+    if (!ebook) {
+        return res.notFound('Ebook not found');
+    }
+
+    delete ebook.created_at;
+    delete ebook.updated_at;
+
+    return res.successWithData({
+        ...ebook,
+        thumbnail_url: `${req.protocol}://${req.get('host')}${ebook.thumbnail_url}`,
+        ebook_url: `${req.protocol}://${req.get('host')}${ebook.ebook_url}`,
+        audio_url: `${req.protocol}://${req.get('host')}${ebook.audio_url}`,
+    });
+};
+
 const GetEbookChunk = async (req, res) => {
     const { id } = req.params;
     const { page } = req.query;
-    
+
     const startPage = (parseInt(page) - 1) * 2 + 1;
     const endPage = startPage + 1;
-    
-    // eslint-disable-next-line no-undef
-    const filePath = path.join(__dirname, '..', 'assets', 'books', `${id}.pdf`);
+
+    const ebook = await db.books.findUnique({
+        where: {
+            id: toInteger(id),
+        },
+    });
+
+    if (!ebook) {
+        return res.notFound('Ebook not found');
+    }
+
+    const filePath = path.join(__dirname, '..', ebook.ebook_url);
     Logger.debug(`[${Namespace}::GetEbookChunk] filePath ${filePath}`);
 
     try {
@@ -56,4 +121,6 @@ const GetEbookChunk = async (req, res) => {
 
 module.exports = {
     GetEbookChunk,
+    GetEbookList,
+    GetEbookDetail
 };
