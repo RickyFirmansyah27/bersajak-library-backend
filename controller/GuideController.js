@@ -9,10 +9,8 @@ const WelcomingGuide = async (req, res) => {
     
         if (greetings) {
             guide = await GuideService.GetGreetingsAudio();
-        } else if (isAudioEnabled) {
-            guide = await GuideService.GetAudioGuide(isAudioEnabled);
         } else {
-            return res.badRequest('Invalid request');
+            guide = await GuideService.GetAudioGuide(isAudioEnabled);
         }
     
         return res.successWithData(guide);
@@ -30,9 +28,20 @@ const NavigationGuide = async (req, res) => {
         Logger.error(`[${Namespace}::NavigationGuide] error ${error}, stack ${error.stack}`);
         return res.internalServerError();
     }
-}
+};
+
+const BookListGuide = async (req, res) => {
+    try {
+        const data = await GuideService.GetBookListAudio();
+        return res.successWithData(data);
+    } catch (error) {
+        Logger.error(`[${Namespace}::BookListGuide] error ${error}, stack ${error.stack}`);
+        return res.internalServerError();
+    }
+};
 
 module.exports = {
     WelcomingGuide,
-    NavigationGuide
+    NavigationGuide,
+    BookListGuide
 };

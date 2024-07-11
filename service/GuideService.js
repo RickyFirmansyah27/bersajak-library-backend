@@ -54,8 +54,24 @@ const GetAudioGuide = async (isAudioEnabled) => {
     return { audio: audioUrl };
 };
 
+const GetBookListAudio = async () => {
+    const audio = await db.audioGuide.findFirst({
+        where: {
+            type: 'book-list'
+        },
+        select: {
+            audio_url: true,
+        },
+    });
+
+    const audioUrl = APP_URL + audio.audio_url;
+
+    return { audio: audioUrl };
+}
+
 module.exports = {
     GetAudioGuide,
     GetGreetingsAudio,
-    GetNavigationGuide
+    GetNavigationGuide,
+    GetBookListAudio
 };
