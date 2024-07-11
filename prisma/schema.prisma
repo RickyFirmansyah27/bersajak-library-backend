@@ -30,28 +30,30 @@ model Books {
 }
 
 model Quiz {
-  id          Int      @id @default(autoincrement())
-  book_id     Int
-  book        Books    @relation(fields: [book_id], references: [id])
-  number      Int      @default(0)
-  question    String
-  option_list String
-  answer      String
-  created_at  DateTime @default(now())
-  updated_at  DateTime @updatedAt
+  id                    Int      @id @default(autoincrement())
+  book_id               Int
+  book                  Books    @relation(fields: [book_id], references: [id])
+  number                Int      @default(0)
+  question              String
+  question_audio_url    String   @default("")
+  option_list           String
+  answer                String
+  created_at            DateTime @default(now())
+  updated_at            DateTime @updatedAt
 
   @@map("quiz")
 }
 
 model WordCompletion {
-  id         Int      @id @default(autoincrement())
-  book_id    Int
-  book       Books    @relation(fields: [book_id], references: [id])
-  number     Int      @default(0)
-  question   String
-  answer     String
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  id                 Int      @id @default(autoincrement())
+  book_id            Int
+  book               Books    @relation(fields: [book_id], references: [id])
+  number             Int      @default(0)
+  question           String
+  question_audio_url String   @default("")
+  answer             String
+  created_at         DateTime @default(now())
+  updated_at         DateTime @updatedAt
 
   @@map("word_completion")
 }

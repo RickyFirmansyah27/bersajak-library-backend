@@ -2,6 +2,7 @@ const { isEmpty } = require('lodash');
 const { Logger } = require('../utils/logger');
 const db = require('../prisma/client');
 
+const { APP_URL } = process.env;
 const GetQuizQuestion = async (number, id) => {
     const question = await db.quiz.findFirst({
         where: {
@@ -12,6 +13,7 @@ const GetQuizQuestion = async (number, id) => {
             number: true,
             question: true,
             option_list: true,
+            question_audio_url: true,
         },
     });
 
@@ -26,7 +28,10 @@ const GetQuizQuestion = async (number, id) => {
     delete question.option_list;
 
     return {
-        data: question,
+        data: {
+            ...question,
+            question_audio_url: APP_URL + question.question_audio_url,
+        },
     };
 };
 
@@ -47,6 +52,7 @@ const ValidateQuizAnswer = async (number, id, answer) => {
     Logger.info(
         `[QuizService::ValidateQuizAnswer] question ${JSON.stringify(question)}`
     );
+    Logger.debug(`[QuizService::ValidateQuizAnswer] answer ${answer} trueAnswer ${question.answer}`)
     const trueAnswer = question.answer;
     return answer === trueAnswer;
 };
