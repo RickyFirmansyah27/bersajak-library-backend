@@ -1,4 +1,5 @@
 const db = require('../prisma/client');
+const { Logger } = require('../utils/logger');
 const { APP_URL } = process.env;
 const GetNavigationGuide = async () => {
     const navigation = await db.audioGuide.findFirst({
@@ -156,6 +157,35 @@ const GetWordCompletionGuide = async () => {
     });
     const audioUrl = APP_URL + data.audio_url;
     return audioUrl;
+};
+
+const GetBookTitleGuide = async (id) => {
+    const data = await db.audioGuide.findFirst({
+        where: {
+            type: `read-book-id-${id}`,
+        },
+        select: {
+            audio_url: true,
+        },
+    });
+    if (!data) {
+        return null;
+    }
+    const audioUrl = APP_URL + data.audio_url;
+    return audioUrl;
+}
+
+const GetBookFinishedAudio = async () => {
+    const data = await db.audioGuide.findFirst({
+        where: {
+            type: 'book-finished',
+        },
+        select: {
+            audio_url: true,
+        },
+    });
+    const audioUrl = APP_URL + data.audio_url;
+    return audioUrl;
 }
 
 module.exports = {
@@ -167,5 +197,7 @@ module.exports = {
     GetAnswerGuide,
     GetScoreGuide,
     GetMultipleChoiceGuide,
-    GetWordCompletionGuide
+    GetWordCompletionGuide,
+    GetBookTitleGuide,
+    GetBookFinishedAudio
 };

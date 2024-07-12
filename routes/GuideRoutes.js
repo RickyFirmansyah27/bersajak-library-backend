@@ -5,6 +5,8 @@ const { WelcomeGuideSchema } = require('./schema/GuideSchema');
 
 route.get('/home', WelcomeGuideSchema, ValidationHandler, GuideController.WelcomingGuide);
 route.get('/navigation', GuideController.NavigationGuide);
+route.get('/book-read', GuideController.GetBookTitleGuide);
+route.get('/book-finished', GuideController.GetBookFinishedAudio);
 route.get('/book-list', GuideController.BookListGuide);
 route.get('/games', GuideController.GamesGuide);
 route.get('/answer', GuideController.AnswerGuide);

@@ -14,6 +14,7 @@ const GetQuizQuestion = async (number, id) => {
             question: true,
             option_list: true,
             question_audio_url: true,
+            answer: true,
         },
     });
 
@@ -68,6 +69,7 @@ const GetWordCompletionQuestion = async (number, id) => {
         select: {
             number: true,
             question: true,
+            answer: true,
         },
     });
 
