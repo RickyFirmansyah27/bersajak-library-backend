@@ -13,5 +13,6 @@ route.get('/answer', GuideController.AnswerGuide);
 route.get('/multiple-choice', GuideController.MultipleChoiceGuide);
 route.get('/word-completion', GuideController.WordCompletionGuide);
 route.get('/score', GuideController.ScoreGuide);
+route.get('/any', GuideController.AnyGuide)
 
 module.exports = route;

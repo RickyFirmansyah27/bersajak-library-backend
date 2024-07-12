@@ -134,12 +134,26 @@ const GetBookFinishedAudio = async (req, res) => {
     }
 }
 
+const AnyGuide = async (req, res) => {
+    const { type } = req.query;
+    try {
+        const data = await GuideService.GetAnyGuide(type);
+        return res.successWithData(data);
+    } catch (error) {
+        Logger.error(
+            `[${Namespace}::AnyGuide] error ${error}, stack ${error.stack}`
+        );
+        return res.internalServerError();
+    }
+}
+
 module.exports = {
     WelcomingGuide,
     NavigationGuide,
     BookListGuide,
     GamesGuide,
     AnswerGuide,
+    AnyGuide,
     ScoreGuide,
     MultipleChoiceGuide,
     WordCompletionGuide,

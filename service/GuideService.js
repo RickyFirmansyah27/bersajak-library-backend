@@ -186,6 +186,19 @@ const GetBookFinishedAudio = async () => {
     });
     const audioUrl = APP_URL + data.audio_url;
     return audioUrl;
+};
+
+const GetAnyGuide = async (type) => {
+    const data = await db.audioGuide.findFirst({
+        where: {
+            type: type,
+        },
+        select: {
+            audio_url: true,
+        },
+    });
+    const audioUrl = APP_URL + data.audio_url;
+    return audioUrl;
 }
 
 module.exports = {
@@ -199,5 +212,6 @@ module.exports = {
     GetMultipleChoiceGuide,
     GetWordCompletionGuide,
     GetBookTitleGuide,
-    GetBookFinishedAudio
+    GetBookFinishedAudio,
+    GetAnyGuide
 };

@@ -7,8 +7,20 @@ const { toInteger } = require('lodash');
 
 const Namespace = 'BookController';
 const GetEbookList = async (req, res) => {
+    const { title } = req.query;
     try {
-        const ebooks = await db.books.findMany({});
+        let ebooks;
+        if (title) {
+            ebooks = await db.books.findMany({
+                where: {
+                    title: {
+                        contains: title,
+                    },
+                },
+            });
+        } else {
+            ebooks = await db.books.findMany({});
+        }
         const transformedData = ebooks.map((ebook) => {
             delete ebook.created_at;
             delete ebook.updated_at;
@@ -54,7 +66,9 @@ const GetEbookDetail = async (req, res) => {
 
     return res.successWithData({
         ...ebook,
-        thumbnail_url: `${req.protocol}://${req.get('host')}${ebook.thumbnail_url}`,
+        thumbnail_url: `${req.protocol}://${req.get('host')}${
+            ebook.thumbnail_url
+        }`,
         ebook_url: `${req.protocol}://${req.get('host')}${ebook.ebook_url}`,
         audio_url: `${req.protocol}://${req.get('host')}${ebook.audio_url}`,
     });
@@ -122,5 +136,5 @@ const GetEbookChunk = async (req, res) => {
 module.exports = {
     GetEbookChunk,
     GetEbookList,
-    GetEbookDetail
+    GetEbookDetail,
 };
