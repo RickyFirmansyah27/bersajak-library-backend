@@ -5,6 +5,7 @@ const fs = require('fs').promises;
 const { PDFDocument } = require('pdf-lib');
 const { toInteger } = require('lodash');
 
+const { APP_URL } = process.env;
 const Namespace = 'BookController';
 const GetEbookList = async (req, res) => {
     const { title } = req.query;
@@ -27,15 +28,9 @@ const GetEbookList = async (req, res) => {
 
             return {
                 ...ebook,
-                thumbnail_url: `${req.protocol}://${req.get('host')}${
-                    ebook.thumbnail_url
-                }`,
-                ebook_url: `${req.protocol}://${req.get('host')}${
-                    ebook.ebook_url
-                }`,
-                audio_url: `${req.protocol}://${req.get('host')}${
-                    ebook.audio_url
-                }`,
+                thumbnail_url: APP_URL + ebook.thumbnail_url,
+                ebook_url: APP_URL + ebook.ebook_url,
+                audio_url: APP_URL + ebook.audio_url,
             };
         });
 
@@ -66,11 +61,9 @@ const GetEbookDetail = async (req, res) => {
 
     return res.successWithData({
         ...ebook,
-        thumbnail_url: `${req.protocol}://${req.get('host')}${
-            ebook.thumbnail_url
-        }`,
-        ebook_url: `${req.protocol}://${req.get('host')}${ebook.ebook_url}`,
-        audio_url: `${req.protocol}://${req.get('host')}${ebook.audio_url}`,
+        thumbnail_url: `${APP_URL}` + ebook.thumbnail_url,
+        ebook_url: `${APP_URL}${ebook.ebook_url}`,
+        audio_url: `${APP_URL}${ebook.audio_url}`,
     });
 };
 
