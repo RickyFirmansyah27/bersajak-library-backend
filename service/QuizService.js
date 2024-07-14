@@ -70,6 +70,7 @@ const GetWordCompletionQuestion = async (number, id) => {
             number: true,
             question: true,
             answer: true,
+            question_audio_url: true,
         },
     });
 
