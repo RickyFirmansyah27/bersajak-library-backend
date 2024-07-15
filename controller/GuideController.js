@@ -4,7 +4,14 @@ const { Logger } = require('../utils/logger');
 const Namespace = 'GuideController';
 const WelcomingGuide = async (req, res) => {
     try {
-        const guide = await GuideService.GetGreetingsAudio();
+        const { isAudioEnabled, greetings } = req.query;
+
+        let guide;
+        if (greetings) {
+            guide = await GuideService.GetGreetingsAudio();
+        } else {
+            guide = await GuideService.GetAudioGuide(isAudioEnabled);
+        }
         return res.successWithData(guide);
     } catch (error) {
         Logger.error(
