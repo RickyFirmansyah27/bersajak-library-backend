@@ -14,6 +14,20 @@ const GetNavigationGuide = async () => {
     return { audio: audioUrl };
 };
 
+const GetEnableAudioOptions = async () => {
+    const audio = await db.audioGuide.findFirst({
+        where: {
+            type: 'audio-options',
+        },
+        select: {
+            audio_url: true,
+        },
+    });
+
+    const audioUrl = APP_URL + audio.audio_url;
+    return { audio: audioUrl };
+}
+
 const GetGreetingsAudio = async () => {
     const greeting = await db.audioGuide.findFirst({
         where: {
@@ -213,5 +227,6 @@ module.exports = {
     GetWordCompletionGuide,
     GetBookTitleGuide,
     GetBookFinishedAudio,
-    GetAnyGuide
+    GetAnyGuide,
+    GetEnableAudioOptions
 };

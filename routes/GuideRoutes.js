@@ -4,6 +4,7 @@ const { ValidationHandler } = require('../middleware/RequestValidator');
 const { WelcomeGuideSchema } = require('./schema/GuideSchema');
 
 route.get('/home', WelcomeGuideSchema, ValidationHandler, GuideController.WelcomingGuide);
+route.get('/audio-options', GuideController.EnableAudioOptions)
 route.get('/navigation', GuideController.NavigationGuide);
 route.get('/book-read', GuideController.GetBookTitleGuide);
 route.get('/book-finished', GuideController.GetBookFinishedAudio);

@@ -4,15 +4,7 @@ const { Logger } = require('../utils/logger');
 const Namespace = 'GuideController';
 const WelcomingGuide = async (req, res) => {
     try {
-        const { isAudioEnabled, greetings } = req.query;
-        let guide;
-
-        if (greetings) {
-            guide = await GuideService.GetGreetingsAudio();
-        } else {
-            guide = await GuideService.GetAudioGuide(isAudioEnabled);
-        }
-
+        const guide = await GuideService.GetGreetingsAudio();
         return res.successWithData(guide);
     } catch (error) {
         Logger.error(
@@ -22,6 +14,18 @@ const WelcomingGuide = async (req, res) => {
     }
 };
 
+const EnableAudioOptions = async (req, res) => {
+    try {
+        const guide = await GuideService.GetEnableAudioOptions();
+        return res.successWithData(guide);
+    } catch (error) {
+        Logger.error(
+            `[${Namespace}::EnableAudioOptions] error ${error}, stack ${error.stack}`
+        );
+        return res.internalServerError();
+    }
+
+};
 const NavigationGuide = async (req, res) => {
     try {
         const guide = await GuideService.GetNavigationGuide();
@@ -132,7 +136,7 @@ const GetBookFinishedAudio = async (req, res) => {
         );
         return res.internalServerError();
     }
-}
+};
 
 const AnyGuide = async (req, res) => {
     const { type } = req.query;
@@ -145,7 +149,7 @@ const AnyGuide = async (req, res) => {
         );
         return res.internalServerError();
     }
-}
+};
 
 module.exports = {
     WelcomingGuide,
@@ -158,5 +162,6 @@ module.exports = {
     MultipleChoiceGuide,
     WordCompletionGuide,
     GetBookTitleGuide,
-    GetBookFinishedAudio
+    EnableAudioOptions,
+    GetBookFinishedAudio,
 };
