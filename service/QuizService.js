@@ -28,10 +28,13 @@ const GetQuizQuestion = async (number, id) => {
     question.options = transformedOptions;
     delete question.option_list;
 
+    const questionAudioUrl = question.question_audio_url ? APP_URL + question.question_audio_url : null;
+
     return {
         data: {
             ...question,
-            question_audio_url: APP_URL + question.question_audio_url,
+            question_audio_url: questionAudioUrl,
+            log: 'local',
         },
     };
 };
@@ -78,7 +81,12 @@ const GetWordCompletionQuestion = async (number, id) => {
         return false;
     }
 
-    return { data };
+    return {
+        data: {
+            ...data,
+            question_audio_url: APP_URL + data.question_audio_url,
+        },
+    };
 };
 
 const ValidateWordCompletionAnswer = async (number, id, answer) => {
