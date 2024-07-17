@@ -20,7 +20,11 @@ const GetEbookList = async (req, res) => {
                 },
             });
         } else {
-            ebooks = await db.books.findMany({});
+            ebooks = await db.books.findMany({
+                orderBy: {
+                    created_at: 'asc'
+                }
+            });
         }
         const transformedData = ebooks.map((ebook) => {
             delete ebook.created_at;
