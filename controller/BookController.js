@@ -88,6 +88,7 @@ const GetEbookChunk = async (req, res) => {
         return res.notFound('Ebook not found');
     }
 
+    // eslint-disable-next-line no-undef
     const filePath = path.join(__dirname, '..', ebook.ebook_url);
     Logger.debug(`[${Namespace}::GetEbookChunk] filePath ${filePath}`);
 
