@@ -32,7 +32,7 @@ const GetEbookList = async (req, res) => {
 
             return {
                 ...ebook,
-                thumbnail_url: APP_URL + ebook.thumbnail_url,
+                thumbnail_url: ebook.thumbnail_url,
                 ebook_url: APP_URL + ebook.ebook_url,
                 audio_url: APP_URL + ebook.audio_url,
             };
