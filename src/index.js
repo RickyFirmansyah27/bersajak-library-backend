@@ -35,6 +35,7 @@ app.use(
     })
 );
 app.use('/api', routes);
+app.notFound((c) => c.text('Route not found', 404));
 app.listen(port, async () => {
     await db.$connect();
     Logger.info('Server is running on port ' + port);
