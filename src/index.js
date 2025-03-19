@@ -59,6 +59,7 @@ app.use((req, res) => {
 app.listen(port, async () => {
     try {
         await db.$connect();
+        Logger.info('Database connected successfully');
         Logger.info('Server is running on port ' + port);
     } catch (error) {
         Logger.error('Failed to connect to database: ' + error.message);
