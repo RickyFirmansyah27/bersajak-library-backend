@@ -1,7 +1,7 @@
 const { statSync, createReadStream } = require('fs');
 const path = require('path');
 const { Logger } = require('../utils/logger');
-const db = require('../prisma/client');
+const db = require('../../prisma/client');
 
 const Namespace = 'AudioController';
 const GetAudioEbook = async (req, res) => {

@@ -1,6 +1,6 @@
 const { isEmpty } = require('lodash');
 const { Logger } = require('../utils/logger');
-const db = require('../prisma/client');
+const db = require('../../prisma/client');
 
 const { APP_URL } = process.env;
 const GetQuizQuestion = async (number, id) => {

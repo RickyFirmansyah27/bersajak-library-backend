@@ -1,5 +1,5 @@
 const path = require('path');
-const db = require('../prisma/client');
+const db = require('../../prisma/client');
 const { Logger } = require('../utils/logger');
 const fs = require('fs').promises;
 const { PDFDocument } = require('pdf-lib');

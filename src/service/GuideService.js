@@ -1,4 +1,4 @@
-const db = require('../prisma/client');
+const db = require('../../prisma/client');
 const { Logger } = require('../utils/logger');
 const { APP_URL } = process.env;
 const GetNavigationGuide = async () => {
