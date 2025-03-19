@@ -1,18 +1,17 @@
 {
     "version": 2,
-    "regions": [
-        "sin1"
-    ],
+    "regions": ["sin1"],
     "builds": [
-        {
-            "src": "src/server.js",
-            "use": "@vercel/node"
-        }
+      {
+        "src": "src/index.js",
+        "use": "@vercel/node"
+      }
     ],
     "routes": [
-        {
-            "src": "/(.*)",
-            "dest": "src/server.js"
-        }
+      {
+        "src": "/(.*)",
+        "dest": "src/index.js"
+      }
     ]
-}
+  }
+  
